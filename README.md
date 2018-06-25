@@ -30,7 +30,7 @@ NodeJS
 
 To run the project:
 
-1. Download and install Node.js at https://nodejs.org/en/download/ 
+1. Download and install Node.js from https://nodejs.org/en/download/ 
 2. Download the project. 
 3. In command line move to the project directory and install node package manager by running the following command:
    $ npm install
