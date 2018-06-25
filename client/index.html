@@ -1,0 +1,63 @@
+<!--
+form page to create new tasks, update existing tasks, retrieve details of the existing tasks sorted 
+first by status and then by priority.
+-->
+<html ng-app="tasklist">
+
+<head>
+    <title> Replenisher Task List </title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta charset="UTF-8">
+    <!--<link rel="stylesheet" href="style.css">-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+</head>
+
+<body>
+    <h3> Add a new Task </h3>
+    <div ng-controller="formController as formCtrlVm">
+
+        <div class="container-fluid">
+
+            <form id="listForm" ng-submit="formCtrlVm.addTask()">
+
+                Task title: <input type="text" id="formCtrlVm.taskName" name="formCtrlVm.taskName" ng-model="formCtrlVm.taskName" required> &emsp;&emsp;&emsp;&emsp;
+                Priority: <input type="number" id="formCtrlVm.priority" name="formCtrlVm.priority" ng-model="formCtrlVm.priority" min="1" required> &emsp;&emsp;&emsp;&emsp;
+                Time to complete: <input type="number" id="formCtrlVm.time" placeholder="Est. hours to finish task" name="formCtrlVm.time" min="1" ng-model="formCtrlVm.time" required> &emsp;&emsp;&emsp;&emsp;
+                Progress: <input id="formCtrlVm.status" placeholder="percentage finished" name="formCtrlVm.status" ng-model="formCtrlVm.status" min="0" required><br><br>
+                Notes: <br><textarea name="notes" rows="2" cols="50" ng-model="formCtrlVm.description" required ng-maxlength="40"></textarea>&emsp;&emsp;&emsp;&emsp;
+                Assigned Individual: <input type="text" id="formCtrlVm.person" name="formCtrlVm.person" ng-model="formCtrlVm.person" required><br><br>
+                <input type="submit" value="Add task">
+            </form>
+            <h2> Tasks List </h2>
+            <div ng-init="formCtrlVm.getAllTasks()">
+                <table class="table table-striped">
+                    <thead>
+                        <th>Task Title</th>
+                        <th> Notes </th>
+                        <th> Assigned To </th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                    </thead>
+                    <tr ng-repeat="task in formCtrlVm.list| orderBy:['status','priority']">
+                        <td>{{task.taskname}}</td>
+                        <td>{{task.description}}</td>
+                        <td>{{task.person}}</td>
+                        <td>{{task.priority}}</td>
+                        <td><input type="text" ng-model=task.status value="{{task.status}}" />
+                            <progress value={{task.status}} max="100"></progress>
+                            <input type="button" ng-click="formCtrlVm.updateStatus(task)" value="update status" />
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.angularjs.org/1.6.6/angular.js "></script>
+    <script src="https://code.angularjs.org/1.6.6/angular-resource.js "></script>
+    <script src="https://code.angularjs.org/1.6.6/angular-route.min.js"></script>
+    <script src="app.js"></script>
+    <script src="taskservice.js"></script>
+</body>
+
+</html>
